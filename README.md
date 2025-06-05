@@ -10,13 +10,13 @@ Precompiled `.uf2` releases available for quick flashing.
 
 ---
 
-## 🕹️ About This Project
+### 🕹️ About This Project
 
 This is a personal fork of the Game Boy emulator for the Raspberry Pi Pico. The key enhancement in this version is the **implementation of screen scaling** to make better use of display resolutions of the ILI9225 176\*220 display.
 
 ---
 
-## 📈 Why Scaling Was Added
+### 📈 Why Scaling Was Added
 
 | Reason                           | Description                                                                                                                                                                                                      |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,15 +27,15 @@ This is a personal fork of the Game Boy emulator for the Raspberry Pi Pico. The 
 
 ---
 
-## 🔍 Scaling Algorithm Overview
+### 🧠 Scaling Algorithm Logic
 
-### The Scaling Challenge
+#### The Scaling Challenge
 
 - Game Boy: 160×144 pixels
 - Your LCD: 220×176 pixels
 - Scale factors: 220/160 = 1.375 (horizontal), 176/144 ≈ 1.222 (vertical)
 
-### - Horizontal Scaling (1.375x)
+#### Horizontal Scaling (1.375x) -
 
 For each LCD pixel position `x` (0 to 219), we need to find which Game Boy pixel to use:
 
@@ -43,7 +43,7 @@ For each LCD pixel position `x` (0 to 219), we need to find which Game Boy pixel
 gb_x = (x * 160) / 220
 ```
 
-**Example mapping:**
+##### Example mapping:
 
 - LCD pixel 0 → GB pixel (0×160)/220 = 0
 - LCD pixel 1 → GB pixel (1×160)/220 = 0 (same pixel repeated)
@@ -52,16 +52,16 @@ gb_x = (x * 160) / 220
 
 This creates a pattern where some Game Boy pixels are shown once, others twice.
 
-### - Vertical Scaling (1.222x)
+#### Vertical Scaling (1.222x) -
 
-The key insight is: **each Game Boy line maps to a range of LCD lines**.
+The key insight is: _every GameBoy line maps to a range of LCD lines_.
 
 ```c
 uint8_t start_lcd_line = (line * 176) / 144;
 uint8_t end_lcd_line = ((line + 1) * 176) / 144;
 ```
 
-**How line repetition is decided:**
+##### How line repetition is decided:
 
 | GB Line | start_lcd_line | end_lcd_line  | LCD Lines | Repetitions |
 | ------- | -------------- | ------------- | --------- | ----------- |
@@ -72,7 +72,7 @@ uint8_t end_lcd_line = ((line + 1) * 176) / 144;
 | 4       | (4×176)/144=4  | (5×176)/144=6 | 4,5       | 2 times     |
 | 5       | (5×176)/144=6  | (6×176)/144=7 | 6         | 1 time      |
 
-**Visual Example**
+##### Visual Example
 
 ```
 Game Boy (144 lines)    LCD (176 lines)
@@ -92,7 +92,7 @@ Line 8    ──────────►   Line 9
 
 ---
 
-## 🚀 Installation / Flashing
+### 🚀 Installation / Flashing
 
 Download the latest `.uf2` release from the [Releases](https://github.com/ArhyaSaha/Pico-GameBoy/releases) section and flash it to your Pico:
 
@@ -103,7 +103,7 @@ Download the latest `.uf2` release from the [Releases](https://github.com/ArhyaS
 
 ---
 
-## 📥 Releases
+### 📥 Releases
 
 - [Download the Latest `.uf2`](https://github.com/ArhyaSaha/Pico-GameBoy/releases/latest)
 
@@ -111,7 +111,7 @@ Download the latest `.uf2` release from the [Releases](https://github.com/ArhyaS
 
 ---
 
-## 💡 Future Plans
+### 💡 Future Plans
 
 - Better Menu Design.
 - Pull Requests are welcome.
@@ -120,6 +120,6 @@ Let's Make This The BEST OPEN-SOURCE MAKE YOUR OWN GAME BOY!
 
 ---
 
-## 📄 License
+### 📄 License
 
 This project follows the license from the original [`youmaketech/pico-gb`](https://github.com/youmaketech/pico-gb) repository.
